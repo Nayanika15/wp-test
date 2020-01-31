@@ -28,7 +28,7 @@
                                             <a class="d-inline-block" href="<?php the_permalink() ?>">
                                                 <h2><?php the_title() ?></h2>
                                             </a>
-                                            <?php the_content() ?>
+                                            <?php the_excerpt() ?>
                                             <ul class="blog-info-link">
                                                 <?php $all_categories = get_the_category( $post->ID );
                                                 if( count($all_categories) > 0 ):

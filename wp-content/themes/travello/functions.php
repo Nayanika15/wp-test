@@ -51,12 +51,34 @@ add_action( 'wp_enqueue_scripts', 'custom_theme_assets' );
 
 
 /*
- * Enable support for Post Thumbnails on posts and pages.
+ * Enable support for Post Thumbnails, custom logo on posts and pages.
  *
  * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
  */
 add_theme_support( 'post-thumbnails' );
+add_theme_support('custom-logo', array(
+		'height' => 41,
+		'width' => 138,
+		'flex-height' => true ));
+
 add_image_size( 'featured-large', 730, 365, true );
+/**
+ * Function to display logo image or the default image
+ */
+function travello_logo() {
+	$logo = '';
+
+	if(has_custom_logo())
+	{
+		$logo = get_custom_logo();
+	}
+	else
+	{
+		$logo = '<a href="'. get_site_url() .'" >'.get_bloginfo('name').'</a>';
+	}
+
+	echo $logo;
+ }
 
 /**
  * Registering menu for the theme
@@ -70,3 +92,23 @@ function register_travello_menus() {
    );
  }
  add_action( 'init', 'register_travello_menus' );
+/**
+ * Adding hooks for login and logout link
+ *
+ */
+function wp_logout_menu_filter_hook( $items, $args ) {
+
+	if(is_user_logged_in())
+	{
+		$items .= '<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14"><a href="'. wp_logout_url(get_permalink()) .'"> Logout </a></li>';
+	}
+	else
+	{	
+		$items .= '<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14"><a href="'. wp_login_url(get_permalink()) .'"> Login</a></li>';
+	}
+	
+	return $items;
+
+}
+
+add_filter( 'wp_nav_menu_items', 'wp_logout_menu_filter_hook', 10, 2);

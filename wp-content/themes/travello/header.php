@@ -24,23 +24,20 @@
                     <div class="header_bottom_border">
                         <div class="row align-items-center">
                             <div class="col-xl-2 col-lg-2">
-                                <div class="logo">
-                                    <a href="index.html">
-                                        <!-- <img src="img/logo.png" alt=""> -->
-                                    </a>
+                                <div class="logo">               
+                                    <?php travello_logo(); ?>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6">
                                 <div class="main-menu  d-none d-lg-block">
                                     <nav>
-                                        <ul id="navigation">
-                                           <?php if ( has_nav_menu('header-menu') ) {
+                                        <?php 
+                                           if ( has_nav_menu('header-menu') ):
                                                 wp_nav_menu(
                                                     array( 'theme_location' => 'header-menu' )
                                                 );
-
-                                            }?>
-                                        </ul>
+                                            endif;   
+                                            ?>
                                     </nav>
                                 </div>
                             </div>
