@@ -87,7 +87,8 @@ function register_travello_menus() {
   register_nav_menus(
     array(
       'header-menu' => __( 'Header Menu' ),
-      'extra-menu' => __( 'Extra Menu' )
+      'extra-menu' => __( 'Extra Menu' ),
+      'social-menu' => __( 'Social Menu' ),
      )
    );
  }
@@ -97,14 +98,17 @@ function register_travello_menus() {
  *
  */
 function wp_logout_menu_filter_hook( $items, $args ) {
-
-	if(is_user_logged_in())
+	if( $args->theme_location == 'header-menu' )
 	{
-		$items .= '<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14"><a href="'. wp_logout_url(get_permalink()) .'"> Logout </a></li>';
-	}
-	else
-	{	
-		$items .= '<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14"><a href="'. wp_login_url(get_permalink()) .'"> Login</a></li>';
+		if(is_user_logged_in())
+		{
+			$items .= '<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14"><a href="'. wp_logout_url(get_permalink()) .'"> Logout </a></li>';
+		}
+		else
+		{	
+			$items .= '<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14"><a href="'. wp_login_url(get_permalink()) .'"> Login</a></li>';
+		}
+	
 	}
 	
 	return $items;
@@ -112,3 +116,100 @@ function wp_logout_menu_filter_hook( $items, $args ) {
 }
 
 add_filter( 'wp_nav_menu_items', 'wp_logout_menu_filter_hook', 10, 2);
+
+/**
+ * Adding widgets 
+ */
+/**
+ * Register widget areas.
+ *
+ * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
+ */
+function travello_sidebar_registration() {
+
+	// Arguments used in all register_sidebar() calls.
+	$shared_args = array(
+		'before_title'  => '<aside class="single_sidebar_widget post_category_widget"><h4 class="widget_title">',
+		'after_title'   => '</h4>',
+		'before_widget' => '',
+		'after_widget'  => '</aside>',
+	);
+
+	// sidebar.
+	register_sidebar(
+		array_merge(
+			$shared_args,
+			array(
+				'name'        => __( 'sidebar', 'travello' ),
+				'id'          => 'sidebar',
+				'description' => __( 'Widgets in this area will be displayed in the right column.', 'travello' ),
+			)
+		)
+	);
+}
+
+add_action( 'widgets_init', 'travello_sidebar_registration' );
+
+/**
+ * To format comment
+ */
+function format_comment($comment, $args, $depth){
+	$GLOBALS['comment'] = $comment; ?>
+    <div class="comment-list">
+	     <div class="single-comment justify-content-between d-flex">
+	        <div class="user justify-content-between d-flex">
+	           <div class="thumb">
+	              <?php echo get_avatar($comment) ?>
+	           </div>
+	           <div class="desc">
+	              <p class="comment">
+	              	<?php comment_text(); ?>
+	              </p>
+	              <div class="d-flex justify-content-between">
+	                 <div class="d-flex align-items-center">
+	                    <h5>
+	                       <a href="#"><?php _e( get_comment_author_link()) ?></a>
+	                    </h5>
+	                    <p class="date"><?php htmlspecialchars ( get_comment_link( $comment->comment_ID ) ) ?><?php printf(__('%1$s'), get_comment_date(), get_comment_time()) ?> </p>
+	                 </div>
+	              </div>
+	           </div>
+	        </div>
+	     </div>
+	</div> <?php
+}
+
+/**
+ * To add cutome tag widget
+ */
+function custom_cloud_tag_widget($args, $instance)
+{	
+	$current_taxonomy = $this->_get_current_taxonomy( $instance );
+
+		if ( ! empty( $instance['title'] ) ) {
+			$title = $instance['title'];
+		} else {
+			if ( 'post_tag' === $current_taxonomy ) {
+				$title = __( 'Tags' );
+			} else {
+				$tax   = get_taxonomy( $current_taxonomy );
+				$title = $tax->labels->name;
+			}
+		}
+
+		$show_count = ! empty( $instance['count'] );
+	$tag_cloud = wp_tag_cloud(
+			apply_filters(
+				'widget_tag_cloud_args',
+				array(
+					'taxonomy'   => $current_taxonomy,
+					'echo'       => false,
+					'show_count' => $show_count,
+				),
+				$instance
+			)
+		);
+	echo $tag_cloud;exit;
+}
+
+add_action('widget_tag_cloud_args', 'custom_cloud_tag_widget', 10, 2);
