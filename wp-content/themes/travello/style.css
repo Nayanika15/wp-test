@@ -5761,31 +5761,31 @@ h6 {
 }
 
 /* line 755, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_blog.scss */
-.blog_right_sidebar .post_category_widget .cat-list li {
+.blog_right_sidebar .widget_categories .cat-list li {
   border-bottom: 1px solid #f0e9ff;
   transition: all 0.3s ease 0s;
   padding-bottom: 12px;
 }
 
 /* line 760, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_blog.scss */
-.blog_right_sidebar .post_category_widget .cat-list li:last-child {
+.blog_right_sidebar .widget_categories .cat-list li:last-child {
   border-bottom: 0;
 }
 
 /* line 764, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_blog.scss */
-.blog_right_sidebar .post_category_widget .cat-list li a {
+.blog_right_sidebar .widget_categories .cat-list li a {
   font-size: 14px;
   line-height: 20px;
   color: #888888;
 }
 
 /* line 769, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_blog.scss */
-.blog_right_sidebar .post_category_widget .cat-list li a p {
+.blog_right_sidebar .widget_categories .cat-list li a p {
   margin-bottom: 0px;
 }
 
 /* line 774, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_blog.scss */
-.blog_right_sidebar .post_category_widget .cat-list li + li {
+.blog_right_sidebar .widget_categories .cat-list li + li {
   padding-top: 15px;
 }
 
@@ -5822,12 +5822,12 @@ h6 {
 }
 
 /* line 828, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_blog.scss */
-.blog_right_sidebar .tag_cloud_widget ul li {
+.blog_right_sidebar .widget_tag_cloud ul li {
   display: inline-block;
 }
 
 /* line 831, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_blog.scss */
-.blog_right_sidebar .tag_cloud_widget ul li a {
+.blog_right_sidebar .widget_tag_cloud ul li a {
   display: inline-block;
   border: 1px solid #eeeeee;
   background: #fff;
@@ -5840,7 +5840,7 @@ h6 {
 }
 
 /* line 842, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_blog.scss */
-.blog_right_sidebar .tag_cloud_widget ul li a:hover {
+.blog_right_sidebar .widget_tag_cloud ul li a:hover {
   background: #FF4A52;
   color: #fff !important;
   -webkit-text-fill-color: #fff;

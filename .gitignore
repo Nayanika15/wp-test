@@ -1,6 +1,6 @@
 wp-admin/*
 wp-includes/*
-wp-content/*
-!wp-content/themes/travello
+wp-content/uploads/*
+wp-content/themes/travelo (1)/*
 
 !.gitignore

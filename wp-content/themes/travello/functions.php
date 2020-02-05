@@ -126,13 +126,13 @@ add_filter( 'wp_nav_menu_items', 'wp_logout_menu_filter_hook', 10, 2);
  * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
  */
 function travello_sidebar_registration() {
-
 	// Arguments used in all register_sidebar() calls.
 	$shared_args = array(
-		'before_title'  => '<aside class="single_sidebar_widget post_category_widget"><h4 class="widget_title">',
+		'before_title'  => '<h4 class="widget_title">',
 		'after_title'   => '</h4>',
-		'before_widget' => '',
+		'before_widget' => '<aside class="single_sidebar_widget %2$s">',
 		'after_widget'  => '</aside>',
+		'class' 		=> 'list'
 	);
 
 	// sidebar.
@@ -146,6 +146,7 @@ function travello_sidebar_registration() {
 			)
 		)
 	);
+
 }
 
 add_action( 'widgets_init', 'travello_sidebar_registration' );
@@ -182,34 +183,11 @@ function format_comment($comment, $args, $depth){
 /**
  * To add cutome tag widget
  */
-function custom_cloud_tag_widget($args, $instance)
-{	
-	$current_taxonomy = $this->_get_current_taxonomy( $instance );
-
-		if ( ! empty( $instance['title'] ) ) {
-			$title = $instance['title'];
-		} else {
-			if ( 'post_tag' === $current_taxonomy ) {
-				$title = __( 'Tags' );
-			} else {
-				$tax   = get_taxonomy( $current_taxonomy );
-				$title = $tax->labels->name;
-			}
-		}
-
-		$show_count = ! empty( $instance['count'] );
-	$tag_cloud = wp_tag_cloud(
-			apply_filters(
-				'widget_tag_cloud_args',
-				array(
-					'taxonomy'   => $current_taxonomy,
-					'echo'       => false,
-					'show_count' => $show_count,
-				),
-				$instance
-			)
-		);
-	echo $tag_cloud;exit;
+function travello_widget_tag_cloud_args( $args, $instances ) {
+	$args['largest']  = 1;
+	$args['smallest'] = 1;
+	$args['unit']     = 'em';
+	$args['format']   = 'list';
+	return $args;
 }
-
-add_action('widget_tag_cloud_args', 'custom_cloud_tag_widget', 10, 2);
+add_filter( 'widget_tag_cloud_args', 'travello_widget_tag_cloud_args', 10, 2);
